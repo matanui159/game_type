@@ -3,7 +3,8 @@
 		"outFile": "bin/out.js",
 		"sourceMap": true,
 		"strict": true,
-		"preserveWatchOutput": true
+		"preserveWatchOutput": true,
+		"newLine": "lf"
 	},
 	"exclude": ["_site/*"]
 }
