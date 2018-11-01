@@ -1,0 +1,9 @@
+{
+	"compilerOptions": {
+		"outFile": "bin/out.js",
+		"sourceMap": true,
+		"strict": true,
+		"preserveWatchOutput": true
+	},
+	"exclude": ["_site/*"]
+}
