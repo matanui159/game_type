@@ -1,10 +1,14 @@
 {
 	"compilerOptions": {
 		"outFile": "bin/out.js",
+		"module": "amd",
+		"newLine": "lf",
 		"sourceMap": true,
-		"strict": true,
-		"preserveWatchOutput": true,
-		"newLine": "lf"
+		"strict": true
 	},
-	"exclude": ["_site/*"]
+	"include": [
+		"src/wrap/head.ts",
+		"src/*.ts",
+		"src/wrap/foot.ts"
+	]
 }

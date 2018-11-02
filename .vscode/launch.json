@@ -4,9 +4,9 @@
 		{
 			"type": "chrome",
 			"request": "launch",
-			"name": "Chrome",
-			"url": "http://localhost:4000",
-			"webRoot": "${workspaceFolder}"
+			"name": "chrome",
+			"file": "${workspaceFolder}/index.html",
+			"preLaunchTask": "typescript"
 		}
 	]
 }

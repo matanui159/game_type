@@ -1,14 +1,16 @@
-/// <reference path='Shader.ts' />
+import * as render from './render';
+import Shader from './Shader';
+import Matrix from './Matrix';
 
-namespace main {
-	function draw() {
-		render.drawRect(
-			Matrix.IDENTITY.translate(-1, -1).scale(2, 2),
-			{red: 0, green: 0, blue: 0}	
-		);
-		render.flush();
+Shader.DEFAULT.use();
 
-		requestAnimationFrame(draw);
-	}
-	draw();
+function draw() {
+	render.drawRect(
+		Matrix.IDENTITY.translate(-1, -1).scale(2, 2),
+		0xFF0000FF
+	);
+	render.flush();
+
+	requestAnimationFrame(draw);
 }
+draw();

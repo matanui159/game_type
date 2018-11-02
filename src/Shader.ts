@@ -1,6 +1,8 @@
-/// <reference path='render.ts' />
+import * as util from './util';
+import * as render from './render';
+import gl from './gl';
 
-class Shader {
+export default class Shader {
 	static readonly DEFAULT = new Shader(`
 		#version 100
 		precision mediump float;
@@ -15,11 +17,12 @@ class Shader {
 	program: WebGLProgram;
 
 	private compile(type: number, code: string): WebGLShader {
-		let shader = util.check(gl.createShader(type));
+		let shader = util.create(gl.createShader(type), 'shader');
 		gl.shaderSource(shader, code);
 		gl.compileShader(shader);
 		if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
-			throw new Error(gl.getShaderInfoLog(shader) || undefined);
+			console.error(gl.getShaderInfoLog(shader));
+			throw new Error('Failed to compile shader');
 		}
 		return shader;
 	}
@@ -34,17 +37,19 @@ class Shader {
 
 			void main() {
 				gl_Position = vec4(vertex, 0.0, 1.0);
-				fcolor = color;
+				fcolor = color.abgr;
 			}
 		`)
 
 		let fragment = this.compile(gl.FRAGMENT_SHADER, code);
-		this.program = util.check(gl.createProgram());
+		this.program = util.create(gl.createProgram(), 'program');
 		gl.attachShader(this.program, vertex);
 		gl.attachShader(this.program, fragment);
+
 		gl.linkProgram(this.program);
 		if (!gl.getProgramParameter(this.program, gl.LINK_STATUS)) {
-			throw new Error(gl.getProgramInfoLog(this.program) || undefined);
+			console.error(gl.getProgramInfoLog(this.program));
+			throw new Error('Failed to link program');
 		}
 
 		gl.detachShader(this.program, vertex);
@@ -58,5 +63,3 @@ class Shader {
 		gl.useProgram(this.program);
 	}
 }
-
-Shader.DEFAULT.use();

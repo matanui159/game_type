@@ -1,6 +1,4 @@
-/// <reference path='util.ts' />
-
-class Matrix {
+export default class Matrix {
 	static readonly IDENTITY = new Matrix(
 		1, 0, 0,
 		0, 1, 0
@@ -15,64 +13,33 @@ class Matrix {
 		public m12: number,
 	) {}
 
-	transform(point: Point): Point;
-	transform(x: number, y: number): Point;
-	transform(x: Point | number, y?: number): Point {
-		let point: Point;
-		if (typeof x === 'number') {
-			point = {
-				x: x,
-				y: y!
-			}
-		} else {
-			point = x;
-		}
-
+	transform(x: number, y: number): {x: number, y: number} {
+		// TODO: maybe add a type for this?
 		return {
-			x: this.m00 * point.x + this.m01 * point.y + this.m02,
-			y: this.m10 * point.x + this.m11 * point.y + this.m12
+			x: this.m00 * x + this.m01 * y + this.m02,
+			y: this.m10 * x + this.m11 * y + this.m12
 		}
 	}
 
-	translate(point: Point): Matrix;
-	translate(x: number, y: number): Matrix;
-	translate(x: Point | number, y?: number): Matrix {
-		let point: Point;
-		if (typeof x === 'number') {
-			point = this.transform(x, y!);
-		} else {
-			point = this.transform(x);
-		}
-
+	translate(x: number, y: number): Matrix {
+		let trans = this.transform(x, y);
 		return new Matrix(
 			this.m00,
 			this.m01,
-			point.x,
+			trans.x,
 			this.m10,
 			this.m11,
-			point.y
+			trans.y
 		);
 	}
 
-	scale(size: Size): Matrix;
-	scale(width: number, height: number): Matrix;
-	scale(width: Size | number, height?: number): Matrix {
-		let size: Size;
-		if (typeof width === 'number') {
-			size = {
-				width: width,
-				height: height!
-			}
-		} else {
-			size = width;
-		}
-
+	scale(width: number, height: number): Matrix {
 		return new Matrix(
-			this.m00 * size.width,
-			this.m01 * size.height,
+			this.m00 * width,
+			this.m01 * height,
 			this.m02,
-			this.m10 * size.width,
-			this.m11 * size.height,
+			this.m10 * width,
+			this.m11 * height,
 			this.m12
 		);
 	}

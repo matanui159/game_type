@@ -1,28 +1,8 @@
-interface Point {
-	x: number;
-	y: number;
-}
-
-interface Size {
-	width: number;
-	height: number;
-}
-
-interface Color {
-	red: number;
-	green: number;
-	blue: number;
-	alpha?: number;
-}
-
-namespace util {
-	export function check<T>(value?: T | null): T {
-		if (typeof value === 'undefined') {
-			throw new TypeError('undefined');
-		} else if (value === null) {
-			throw new TypeError('null');
-		} else {
-			return value;
-		}
+export function create<T>(value: T | null, name: string): T {
+	// TODO: maybe rename this?
+	if (value === null) {
+		throw new Error(`Failed to create ${name}`);
+	} else {
+		return value;
 	}
 }
